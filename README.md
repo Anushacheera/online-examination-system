@@ -1,1 +1,1 @@
-# online-examination-system
+# online-examination-system Developed a web-based Online Examination System using HTML, CSS, and JavaScript that enables users to take exams online with automatic evaluation, real-time score calculation, and instant result display with pass/fail status.
