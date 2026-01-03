@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Result</title>
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            background-color: #fafaf6;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: rgb(189, 195, 131);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .score {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .message {
+            font-size: 20px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .correct-answers {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .correct-answers h3 {
+            margin-bottom: 10px;
+        }
+        .correct-answers ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .correct-answers li {
+            margin: 5px 0;
+        }
+        .pass {
+            color: green;
+        }
+        .fail {
+            color: red;
+        }
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Quiz Result</h2>
+        <div class="score" id="score"></div>
+        <div class="message" id="message"></div>
+
+        <div class="correct-answers" id="correct-answers">
+            <h3>Correct Answers:</h3>
+            <ul id="answers-list"></ul>
+        </div>
+
+        <button onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+        // Define correct answers for your quiz
+        const correctAnswers = {
+            q1: 'Hyper Text Markup Language',
+            q2: '<a>',
+            q3: 'img',
+            q4: 'h1'
+        };
+
+        // Get user answers from URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let score =4;
+        const totalQuestions = Object.keys(correctAnswers).length;
+
+        const answersList = document.getElementById('answers-list');
+
+        // Calculate score and display correct answers for wrong ones
+        for (const [key, value] of Object.entries(correctAnswers)) {
+            const userAnswer = urlParams.get(key);
+            if(userAnswer === value) {
+                score++;
+            } else {
+                const li = document.createElement('li');
+                li.textContent = `${key.toUpperCase()}: ${value}`;
+                answersList.appendChild(li);
+            }
+        }
+
+        // Display score
+        document.getElementById('score').textContent = `Your Score: ${score} / ${totalQuestions}`;
+
+        // Display pass/fail message
+        const messageEl = document.getElementById('message');
+        const passPercentage = 50; // 50% passing mark
+        const scorePercentage = (score / totalQuestions) * 100;
+
+        if(scorePercentage >= passPercentage) {
+            messageEl.textContent = "Congratulations! You passed 🎉";
+            messageEl.classList.add("pass");
+        } else {
+            messageEl.textContent = "Sorry! You failed 😞";
+            messageEl.classList.add("fail");
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
